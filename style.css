@@ -36,6 +36,31 @@ nav {
 nav ul {
  list-style-type: none;
 }
+
+.flex-nav {
+    display: flex;
+    justify-content: center; /* Центрируем меню */
+    gap: 30px; /* Отступы между пунктами */
+    list-style: none;
+    padding: 0;
+}
+
+.flex-nav a {
+    display: block;
+    padding: 12px 24px;
+    background-color: #4a6fa5;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.flex-nav a:hover {
+    background-color: #3a5a8c;
+    transform: translateY(-3px);
+box-shadow: 0 5px 15px rgba(74, 111, 165, 0.4);
+}
+
 /* Делаем пункты меню в строку */
 nav ul li {
  display: inline-block;
@@ -96,6 +121,11 @@ footer {
  max-width: 1200px;
  margin: 0 auto;
  padding: 20px;
+ display: flex;
+ flex-wrap: wrap;
+ flex: 1 1 300px;
+ justify-content: center;
+ gap: 1;
 }
 /* Шапка галереи */
 .gallery-header {
@@ -106,9 +136,11 @@ footer {
  border-radius: 0 0 20px 20px;
  margin-bottom: 30px;
 }
+
 .header-content {
  margin-bottom: 30px;
 }
+
 .theme-name {
  background: rgba(255, 255, 255, 0.2);
  padding: 5px 15px;
@@ -358,6 +390,7 @@ footer {
 }
 .image-card {
  animation: fadeIn 0.5s ease forwards;
+ 
 }
 /* Задержка анимации для каждой карточки */
 .image-card:nth-child(1) { animation-delay: 0.1s; }
@@ -396,3 +429,14 @@ nav ul li a:hover {
  border-radius: 3px;
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.contacts-container {
+    display: flex;
+    gap: 1;
+    flex: 1;
+    flex: 2;
+}
