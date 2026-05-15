@@ -1,62 +1,78 @@
 // Функция для подсчёта фотографий
 function countPhotos() {
- let photos = document.querySelectorAll('.photo');
- let counter = document.getElementById('count');
+  let photos = document.querySelectorAll('.photo');
+  let counter = document.getElementById('count');
 
- if (counter) {
- counter.textContent = photos.length;
- }
+  if (counter) {
+    counter.textContent = photos.length;
+  }
 
- console.log('Найдено фотографий:', photos.length);
+  console.log('Найдено фотографий:', photos.length);
 }
+
 // Функция для работы с лайками
 function setupLikes() {
- let likeButtons = document.querySelectorAll('.like-btn');
- let totalLikesElement = document.getElementById('total-likes');
- let totalLikes = 0;
+  let likeButtons = document.querySelectorAll('.like-btn');
+  let totalLikesElement = document.getElementById('total-likes');
 
- // Для каждой кнопки лайка
- likeButtons.forEach(function(button) {
- // При клике на кнопку
- button.addEventListener('click', function() {
- let likesSpan = this.querySelector('.likes');
- let currentLikes = parseInt(likesSpan.textContent);
+  // Перерасчёт общего числа лайков
+  function recalcTotalLikes() {
+    let total = 0;
+    likeButtons.forEach(btn => {
+      const likesSpan = btn.querySelector('.likes');
+      const likes = likesSpan ? parseInt(likesSpan.textContent) || 0 : 0;
+      total += likes;
+    });
+    if (totalLikesElement) totalLikesElement.textContent = total;
+    return total;
+  }
 
- if (this.classList.contains('liked')) {
- // Убираем лайк
- currentLikes--;
- totalLikes--;
- this.classList.remove('liked');
- } else {
- // Добавляем лайк
- currentLikes++;
- totalLikes++;
- this.classList.add('liked');
- }
+  likeButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      let likesSpan = this.querySelector('.likes');
+      if (!likesSpan) return;
 
- // Обновляем счётчики
- likesSpan.textContent = currentLikes;
- totalLikesElement.textContent = totalLikes;
+      let currentLikes = parseInt(likesSpan.textContent) || 0;
 
- // Анимация
- this.style.transform = 'scale(1.2)';
- setTimeout(() => {
- this.style.transform = 'scale(1)';
- }, 300);
+      if (this.classList.contains('liked')) {
+        // Убираем лайк (минимум 0)
+        currentLikes = Math.max(currentLikes - 1, 0);
+        this.classList.remove('liked');
+      } else {
+        // Добавляем лайк
+        currentLikes++;
+        this.classList.add('liked');
+      }
 
- console.log('Лайков всего:', totalLikes);
- });
- });
+      // Обновляем счётчики
+      likesSpan.textContent = currentLikes;
+
+      // Обновляем общий лайк
+      const totalLikes = recalcTotalLikes();
+
+      // Анимация
+      this.style.transform = 'scale(1.2)';
+      setTimeout(() => {
+        this.style.transform = 'scale(1)';
+      }, 300);
+
+      console.log('Лайков всего:', totalLikes);
+    });
+  });
+
+  // Начальное обновление общего числа лайков
+  recalcTotalLikes();
 }
+
 // Когда страница загрузится
 document.addEventListener('DOMContentLoaded', function() {
- console.log('Галерея загружена!');
+  console.log('Галерея загружена!');
 
- countPhotos();
- setupLikes();
+  countPhotos();
+  setupLikes();
 
- // Показываем, что JavaScript работает
- setTimeout(function() {
- console.log('✅ JavaScript работает правильно!');
- }, 1000);
+  // Показываем, что JavaScript работает
+  setTimeout(function() {
+    console.log('✅ JavaScript работает правильно!');
+  }, 1000);
 });
