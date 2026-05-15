@@ -1,21 +1,19 @@
 // Функция для подсчёта фотографий
 function countPhotos() {
-  let photos = document.querySelectorAll('.photo');
-  let counter = document.getElementById('count');
-
+  const photos = document.querySelectorAll('.photo');
+  const counter = document.getElementById('count');
   if (counter) {
     counter.textContent = photos.length;
   }
-
   console.log('Найдено фотографий:', photos.length);
 }
 
 // Функция для работы с лайками
 function setupLikes() {
-  let likeButtons = document.querySelectorAll('.like-btn');
-  let totalLikesElement = document.getElementById('total-likes');
+  const likeButtons = document.querySelectorAll('.like-btn');
+  const totalLikesElement = document.getElementById('total-likes');
 
-  // Перерасчёт общего числа лайков
+  // Перерасчёт общего количества лайков
   function recalcTotalLikes() {
     let total = 0;
     likeButtons.forEach(btn => {
@@ -27,52 +25,51 @@ function setupLikes() {
     return total;
   }
 
-  likeButtons.forEach(function(button) {
-    button.addEventListener('click', function() {
-      let likesSpan = this.querySelector('.likes');
+  likeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const likesSpan = btn.querySelector('.likes');
       if (!likesSpan) return;
 
       let currentLikes = parseInt(likesSpan.textContent) || 0;
 
-      if (this.classList.contains('liked')) {
-        // Убираем лайк (минимум 0)
+      if (btn.classList.contains('liked')) {
+        // Убираем лайк
         currentLikes = Math.max(currentLikes - 1, 0);
-        this.classList.remove('liked');
+        btn.classList.remove('liked');
       } else {
         // Добавляем лайк
         currentLikes++;
-        this.classList.add('liked');
+        btn.classList.add('liked');
       }
 
-      // Обновляем счётчики
+      // Обновляем счётчик лайков внутри кнопки
       likesSpan.textContent = currentLikes;
 
-      // Обновляем общий лайк
-      const totalLikes = recalcTotalLikes();
+      // Обновляем общее число лайков
+      recalcTotalLikes();
 
       // Анимация
-      this.style.transform = 'scale(1.2)';
+      btn.style.transform = 'scale(1.2)';
       setTimeout(() => {
-        this.style.transform = 'scale(1)';
+        btn.style.transform = 'scale(1)';
       }, 300);
 
-      console.log('Лайков всего:', totalLikes);
+      console.log('Общее количество лайков:', totalLikes);
     });
   });
 
-  // Начальное обновление общего числа лайков
+  // Изначально считаем все лайки
   recalcTotalLikes();
 }
 
-// Когда страница загрузится
-document.addEventListener('DOMContentLoaded', function() {
+// Обработчик загрузки DOM
+document.addEventListener('DOMContentLoaded', () => {
   console.log('Галерея загружена!');
-
   countPhotos();
   setupLikes();
 
-  // Показываем, что JavaScript работает
-  setTimeout(function() {
+  // Легкая проверка, что скрипт работает
+  setTimeout(() => {
     console.log('✅ JavaScript работает правильно!');
   }, 1000);
 });
